@@ -11,10 +11,6 @@ class Board:
         self.n_cols = len(nums)
         self.squares = [[Square(x) for x in row] for row in nums]
 
-    def _set_up_nums(self):
-        # Set up the squares on the board (ints into Square objects)
-        pass
-
     # Makes it possible to print a board in a sensible format
     def __str__(self):
         r = "Board with " + str(self.n_rows) + " rows and " + str(self.n_cols) + " columns:\n"
@@ -31,12 +27,21 @@ class SudokuBoard:
         self.game_board = Board(nums)
 
     def _set_up_elems(self):
-        # You should set up links between your squares and elements
-        # (rows, columns, boxes)
-        pass
+        rows = [Element([self.game_board.squares[i][j] for j in range(9)]) for i in range(9)]
+        cols = [Element([self.game_board.squares[i][j] for i in range(9)]) for j in range(9)]
+        boxes = [Element([self.game_board.squares[i][j]
+                 for i in range(n, n+3)
+                 for j in range(m, m+3)])
+                 for n in range(0, 9, 3)
+                 for m in range(0, 9, 3)]
+
+        self.elems = rows + cols + boxes
 
     def solve(self):
         pass
+
+    def __str__(self):
+        return self.game_board.__str__()
 
 class Square:
     def __init__(self, val: int):
@@ -45,12 +50,24 @@ class Square:
     def __str__(self):
         return str(self.value)
 
+    def __add__(self, o):
+        return self.value + o.value
+
 class Element:
-    def __init__(self, squares: Square):
+    def __init__(self, squares: list[Square]):
         self.squares = squares
+
+    def legality(self):
+        used_nums = []
+        for square in self.squares:
+            if square.value in used_nums:
+                return False
+            used_nums.append(square.value)
+        return True
+
 
 if __name__ == "__main__":
     # Test code...
     reader = Sudoku_reader("sudoku_10.csv")
-    board = Board(reader.next_board())
+    board = SudokuBoard(reader.next_board())
     print(board)
