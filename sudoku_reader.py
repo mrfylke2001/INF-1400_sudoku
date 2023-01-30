@@ -1,11 +1,9 @@
-
 class SudokuReader:
-
     def __init__(self, filename):
         self.file = open(filename, "r")
         self.current_line = 0
 
-    # Returns a 2D list (9*9) of ints
+    # Returns a 2D list (9x9) of ints
     def next_board(self):
         try:
             board_txt = self.file.readline()

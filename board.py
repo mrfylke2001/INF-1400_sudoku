@@ -2,11 +2,8 @@ from sudoku_reader import SudokuReader
 import numpy as np
 
 class Board:
-    # It is your task to subclass this in order to make it more fit
-    # to be a sudoku board
-
     def __init__(self, nums):
-        # Nums parameter is a 2D list, like what the sudoku_reader returns
+        # nums parameter is a 2D list
         self.n_rows = len(nums[0])
         self.n_cols = len(nums)
         self.squares = [[None for _ in range(self.n_rows)] for _ in range(self.n_cols)]
@@ -90,7 +87,7 @@ class Element:
         return elem_str
 
 if __name__ == "__main__":
-    # Test code...
+    # Test code
     reader = SudokuReader("sudoku_10.csv")
     board = SudokuBoard(reader.next_board())
     print(board)
