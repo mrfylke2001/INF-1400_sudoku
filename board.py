@@ -9,11 +9,10 @@ class Board:
         # Nums parameter is a 2D list, like what the sudoku_reader returns
         self.n_rows = len(nums[0])
         self.n_cols = len(nums)
-        self.nums = [[None for _ in range(self.n_rows)] for _ in range(self.n_cols)]
+        self._set_up_nums(nums)
 
-    def _set_up_nums(self):
-        # Set up the squares on the board (ints into Square objects)
-        pass
+    def _set_up_nums(self, nums):
+        self.nums = [[Square(nums[i][j], i, j) for j in self.n_cols] for i in self.n_rows]
 
     def _set_up_elems(self):
         # You should set up links between your squares and elements
@@ -34,6 +33,11 @@ class Board:
             r = r[:-2] + "]" + "\n ["
         r = r[:-3] + "]"
         return r
+
+class Square:
+    def __init__(self, value, row: int, col: int):
+        self.value = value
+        self.position = (row, col)
 
 if __name__ == "__main__":
     # Test code...
