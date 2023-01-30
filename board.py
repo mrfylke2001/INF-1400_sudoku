@@ -20,17 +20,6 @@ class Board:
         board_str = board_str[:-3] + "]"
         return board_str
 
-class Square:
-    def __init__(self, value, fixed: bool):
-        self.value = value
-        self.fixed = fixed
-
-    def __str__(self):
-        if self.fixed:
-            return "(" + str(self.value) + ")"
-        else:
-            return " " + str(self.value) + " "
-
 class SudokuBoard(Board):
     def __init__(self, nums):
         Board.__init__(self, nums)
@@ -69,6 +58,30 @@ class SudokuBoard(Board):
     def solve(self):
         # Your solving algorithm goes here!
         pass
+
+class Square:
+    def __init__(self, value, fixed: bool):
+        self.value = value
+        self.fixed = fixed
+        self.elems = []
+
+    def consider(self, pot_val):
+        for elem in self.elems:
+            if pot_val in elem.contents():
+                return False
+        return True
+
+    def set_val(self, new_val):
+        if self.fixed:
+            raise AttributeError("Square is fixed; value cannot be reassigned")
+        else:
+            self.value = new_val
+
+    def __str__(self):
+        if self.fixed:
+            return "(" + str(self.value) + ")"
+        else:
+            return " " + str(self.value) + " "
 
 class Element:
     def __init__(self, squares):
