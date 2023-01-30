@@ -10,18 +10,10 @@ class Board:
         self.n_rows = len(nums[0])
         self.n_cols = len(nums)
         self._set_up_nums(nums)
+        print("Initialized board")
 
     def _set_up_nums(self, nums):
-        self.nums = [[Square(nums[i][j], i, j) for j in self.n_cols] for i in self.n_rows]
-
-    def _set_up_elems(self):
-        # You should set up links between your squares and elements
-        # (rows, columns, boxes)
-        pass
-
-    def solve(self):
-        # Your solving algorithm goes here!
-        pass
+        self.nums = [[Square(nums[i][j], i, j) for j in range(self.n_cols)] for i in range(self.n_rows)]
 
     # Makes it possible to print a board in a sensible format
     def __str__(self):
@@ -39,8 +31,25 @@ class Square:
         self.value = value
         self.position = (row, col)
 
+    def __str__(self):
+        return str(self.value)
+
+class SudokuBoard(Board):
+    def __init__(self, nums):
+        Board.__init__(self, nums)
+        self._set_up_elems()
+
+    def _set_up_elems(self):
+        # You should set up links between your squares and elements
+        # (rows, columns, boxes)
+        print("Setting up elems")
+
+    def solve(self):
+        # Your solving algorithm goes here!
+        pass
+
 if __name__ == "__main__":
     # Test code...
     reader = SudokuReader("sudoku_10.csv")
-    board = Board(reader.next_board())
+    board = SudokuBoard(reader.next_board())
     print(board)
