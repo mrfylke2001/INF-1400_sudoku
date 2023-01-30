@@ -1,4 +1,4 @@
-from sudoku_reader import Sudoku_reader
+from sudoku_reader import SudokuReader
 import numpy as np
 
 class Board:
@@ -37,6 +37,6 @@ class Board:
 
 if __name__ == "__main__":
     # Test code...
-    reader = Sudoku_reader("sudoku_10.csv")
+    reader = SudokuReader("sudoku_10.csv")
     board = Board(reader.next_board())
     print(board)
