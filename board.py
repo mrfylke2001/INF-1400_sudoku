@@ -3,12 +3,13 @@ import numpy as np
 
 class Board:
     def __init__(self, nums):
-        # nums parameter is a 2D list
+        # `nums` parameter is a 2D list
         self.n_rows = len(nums[0])
         self.n_cols = len(nums)
         self._set_up_squares(nums)
 
     def _set_up_squares(self, nums):
+        # Creates an empty board with the dimensions of `nums`
         self.squares = [[None for _ in range(self.n_rows)] for _ in range(self.n_cols)]
 
     # Makes it possible to print a board in a sensible format
