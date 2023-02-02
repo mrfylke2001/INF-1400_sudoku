@@ -69,7 +69,30 @@ class SudokuBoard(Board):
 
     def solve(self):
         # Brute force algorithm
-        pass
+        mutable_squares = np.array([
+            square
+            for square in self.squares.flatten()
+            if not square.fixed
+        ])
+
+        i = 0
+        while i < len(mutable_squares):
+            #print(f"Index {i}")
+
+            square = mutable_squares[i]
+            #print(f"Seen {square.value}")
+
+            trial_val = square.min_legal_val(square.value + 1)
+            #print(f"Trying {trial_val}")
+
+            if trial_val > 0:
+                #print("Setting")
+                square.set_val(trial_val)
+                i += 1
+            else:
+                #print("Stepping back")
+                square.set_val(0)
+                i -= 1
 
 class Square:
     def __init__(self, value: int, fixed: bool):
@@ -87,7 +110,7 @@ class Square:
         for k in range(min, 10):
             if self._consider(k):
                 return k
-        return False
+        return 0
 
     def set_val(self, new_val):
         if self.fixed:
@@ -122,4 +145,7 @@ if __name__ == "__main__":
     reader = SudokuReader("sudoku_10.csv")
     board = SudokuBoard(reader.next_board())
     board.print_elems(4, 6)
+    print(board)
+
+    board.solve()
     print(board)
