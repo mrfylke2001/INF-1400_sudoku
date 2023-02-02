@@ -89,10 +89,10 @@ class Square:
 
 class Element:
     def __init__(self, squares):
-        self.squares = squares
+        self.elem_squares = squares
 
     def contents(self):
-        elem_contents = set([[square.value for square in row] for row in self.squares])
+        elem_contents = set([square.value for square in self.elem_squares])
         return elem_contents
 
     def __str__(self):
