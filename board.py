@@ -19,7 +19,7 @@ class Board:
         board_str += "[["
         for row in self.squares:
             for square in row:
-                board_str += square.__str__() + ", "
+                board_str += f"{square}, "
             board_str = board_str[:-2] + "]\n ["
         board_str = board_str[:-3] + "]"
         return board_str
@@ -114,9 +114,9 @@ class Square:
 
     def __str__(self):
         if self.fixed:
-            return "(" + str(self.value) + ")"
+            return f"({self.value})"
         else:
-            return " " + str(self.value) + " "
+            return f" {self.value} "
 
 class Element:
     def __init__(self, squares: list[Square]):
@@ -130,7 +130,7 @@ class Element:
         elem_str = f"Element with {len(self.elem_squares)} squares:\n"
         elem_str += "["
         for square in self.elem_squares:
-            elem_str += square.__str__() + ", "
+            elem_str += f"{square}, "
         elem_str = elem_str[:-2] + "]"
         return elem_str
 
