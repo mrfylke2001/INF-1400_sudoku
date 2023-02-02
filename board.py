@@ -10,7 +10,7 @@ class Board:
 
     def _set_up_squares(self, nums):
         # Creates an empty board with the dimensions of `nums`
-        self.squares = [[None for _ in range(self.n_rows)] for _ in range(self.n_cols)]
+        self.squares = np.array([[None for _ in range(self.n_rows)] for _ in range(self.n_cols)])
 
     # Makes it possible to print a board in a sensible format
     def __str__(self):
@@ -25,20 +25,23 @@ class Board:
 
 class SudokuBoard(Board):
     def _set_up_squares(self, nums):
-        self.squares = [
+        self.squares = np.array([
             [
                 Square(num, False if num == 0 else True)
                 for num in row
             ]
             for row in nums
-        ]
+        ])
 
         self._set_up_elems()
 
     def _set_up_elems(self):
-        row_elems = [Element(row) for row in self.squares]
-        col_elems = [Element([row[j] for row in self.squares]) for j in range(self.n_cols)]
-        box_elems = [
+        row_elems = np.array([Element(row) for row in self.squares])
+        col_elems = np.array([
+            Element([row[j] for row in self.squares])
+            for j in range(self.n_cols)
+        ])
+        box_elems = np.array([
             [
                 Element([
                     self.squares[i][j]
@@ -48,11 +51,15 @@ class SudokuBoard(Board):
                 for m in range(0, 9, 3)
             ]
             for n in range(0, 9, 3)
-        ] # Boxes are ordered in a 3x3 list as they appear on the board
+        ]) # Boxes are ordered in a 3x3 list as they appear on the board
 
         for i in range(self.n_rows):
             for j in range(self.n_cols):
-                assoc_elems = [row_elems[i], col_elems[j], box_elems[int(i/3)][int(j/3)]]
+                assoc_elems = np.array([
+                    row_elems[i],
+                    col_elems[j],
+                    box_elems[int(i/3)][int(j/3)]
+                ])
                 self.squares[i][j].elems = assoc_elems
 
     def print_elems(self, i, j):
@@ -94,17 +101,17 @@ class Square:
             return " " + str(self.value) + " "
 
 class Element:
-    def __init__(self, squares):
-        self.elem_squares = squares
+    def __init__(self, squares: list[Square]):
+        self.elem_squares = np.array(squares)
 
     def contents(self):
         elem_contents = set([square.value for square in self.elem_squares])
         return elem_contents
 
     def __str__(self):
-        elem_str = f"Element with {len(self.squares)} squares:\n"
+        elem_str = f"Element with {len(self.elem_squares)} squares:\n"
         elem_str += "["
-        for square in self.squares:
+        for square in self.elem_squares:
             elem_str += square.__str__() + ", "
         elem_str = elem_str[:-2] + "]"
         return elem_str
