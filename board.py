@@ -77,20 +77,14 @@ class SudokuBoard(Board):
 
         i = 0
         while i < len(mutable_squares):
-            #print(f"Index {i}")
-
             square = mutable_squares[i]
-            #print(f"Seen {square.value}")
-
             trial_val = square.min_legal_val(square.value + 1)
-            #print(f"Trying {trial_val}")
 
             if trial_val > 0:
-                #print("Setting")
                 square.set_val(trial_val)
                 i += 1
             else:
-                #print("Stepping back")
+                # Reset and move back to previous square
                 square.set_val(0)
                 i -= 1
 
@@ -110,7 +104,7 @@ class Square:
         for k in range(min, 10):
             if self._consider(k):
                 return k
-        return 0
+        return 0 # if there are no legal values
 
     def set_val(self, new_val):
         if self.fixed:
@@ -142,10 +136,10 @@ class Element:
 
 if __name__ == "__main__":
     # Test code
-    reader = SudokuReader("sudoku_10.csv")
-    board = SudokuBoard(reader.next_board())
-    board.print_elems(4, 6)
-    print(board)
+    reader = SudokuReader("sudoku_100.csv")
 
-    board.solve()
-    print(board)
+    for _ in range(100):
+        board = SudokuBoard(reader.next_board())
+        board.solve()
+
+        print(board)
