@@ -2,17 +2,18 @@ from sudoku_reader import SudokuReader
 import numpy as np
 
 class Board:
-    def __init__(self, nums):
-        # `nums` parameter is a 2D list
+    def __init__(self, nums: list[list]):
         self.n_rows = len(nums[0])
         self.n_cols = len(nums)
         self._set_up_squares(nums)
 
     def _set_up_squares(self, nums):
         # Creates an empty board with the dimensions of `nums`
-        self.squares = np.array([[None for _ in range(self.n_rows)] for _ in range(self.n_cols)])
+        self.squares = np.array([
+            [None for _ in range(self.n_rows)]
+            for _ in range(self.n_cols)
+        ])
 
-    # Makes it possible to print a board in a sensible format
     def __str__(self):
         board_str = f"Board with {self.n_rows} rows and {self.n_cols} columns:\n"
         board_str += "[["
@@ -71,7 +72,7 @@ class SudokuBoard(Board):
         pass
 
 class Square:
-    def __init__(self, value, fixed: bool):
+    def __init__(self, value: int, fixed: bool):
         self.value = value
         self.fixed = fixed
         self.elems = []
