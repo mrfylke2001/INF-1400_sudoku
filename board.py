@@ -88,6 +88,9 @@ class SudokuBoard(Board):
                 square.set_val(0)
                 i -= 1
 
+            if i < 0:
+                raise ValueError("Board is unsolvable")
+
 class Square:
     def __init__(self, value: int, fixed: bool):
         self.value = value
