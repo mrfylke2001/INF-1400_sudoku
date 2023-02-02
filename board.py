@@ -60,7 +60,7 @@ class SudokuBoard(Board):
             print(elem)
 
     def solve(self):
-        # Your solving algorithm goes here!
+        # Brute force algorithm
         pass
 
 class Square:
@@ -69,11 +69,17 @@ class Square:
         self.fixed = fixed
         self.elems = []
 
-    def consider(self, pot_val):
+    def _consider(self, pot_val):
         for elem in self.elems:
             if pot_val in elem.contents():
                 return False
         return True
+
+    def min_legal_val(self, min=1):
+        for k in range(min, 10):
+            if self._consider(k):
+                return k
+        return False
 
     def set_val(self, new_val):
         if self.fixed:
